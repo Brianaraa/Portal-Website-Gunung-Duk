@@ -131,8 +131,6 @@ export const siteConfig = {
   contact: {
     address:
       'Padukuhan Giling, Desa Tuksono, Kec. Sentolo, Kab. Kulon Progo, Daerah Istimewa Yogyakarta',
-    phone: '081234567800', // Ganti dengan nomor asli
-    email: 'padukuhangiling@gmail.com', // Ganti dengan email asli
   },
 
   /* ─── Peta ─── */
