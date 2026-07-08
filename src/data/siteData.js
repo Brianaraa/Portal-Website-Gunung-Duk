@@ -152,12 +152,12 @@ export const siteConfig = {
   about: {
     title: 'Profil Padukuhan',
     subtitle: 'Sejarah, Visi & Misi Padukuhan Giling',
-    sejarah: 'Padukuhan Giling merupakan salah satu wilayah yang kaya akan budaya gotong royong dan potensi alam di Desa Tuksono, Kecamatan Sentolo. Didirikan dengan semangat kebersamaan, padukuhan ini terus berkembang menjadi sentra ekonomi kreatif dan UMKM di Kulon Progo.',
-    visi: 'Mewujudkan Padukuhan Giling yang mandiri, sejahtera, dan unggul dalam potensi lokal berlandaskan nilai gotong royong.',
+    sejarah: 'Padukuhan Giling merupakan salah satu wilayah yang masyarakatnya terus menjaga identitas budaya dan tradisi seperti Baritan Suran dan kesenian Oglek. Wilayah ini memiliki potensi pertanian dan UMKM yang berkembang, serta berkomitmen untuk melestarikan nilai-nilai lokal.',
+    visi: 'Mewujudkan Desa Tuksono menjadi Desa Mandiri melalui bidang Pertanian dan Industri Kecil, serta menjadi Desa Budaya yang lestari.',
     misi: [
-      'Meningkatkan kapasitas pelaku UMKM lokal melalui pemanfaatan teknologi digital.',
-      'Menjaga dan melestarikan budaya lokal serta kelestarian alam lingkungan sekitar.',
-      'Menyelenggarakan tata kelola informasi padukuhan yang transparan dan mudah diakses.'
+      'Meningkatkan perekonomian masyarakat melalui pemberdayaan UMKM dan kerajinan lokal seperti kerajinan serat agel.',
+      'Memajukan sektor pertanian sebagai penopang utama ketahanan pangan.',
+      'Melestarikan nilai-nilai tradisi dan seni budaya lokal, seperti pelestarian adat Baritan Suran Padukuhan Giling dan kesenian Oglek.'
     ],
     image: null, // Ganti dengan gambar profil padukuhan
   },
