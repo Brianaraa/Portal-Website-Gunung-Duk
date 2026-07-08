@@ -8,10 +8,12 @@ const SiteDataContext = createContext(null);
    Google Sheets Response Parser
    ═══════════════════════════════════════════════════════════
    Google Sheets gviz/tq mengembalikan format JSONP:
-   /*O_o*​/google.visualization.Query.setResponse({...});
+   google.visualization.Query.setResponse({...});
 
-   Fungsi ini meng-extract JSON-nya dan mengubahnya menjadi
-   array of objects, sama seperti format SheetDB sebelumnya.
+   Parser ini menangani kasus-kasus khusus:
+   1. parsedNumHeaders=0 → baris pertama = header, bukan data
+   2. Kolom bertipe number (misal WhatsApp) → pakai formatted value
+   3. Cell null → default ke empty string
    ═══════════════════════════════════════════════════════════ */
 function parseGoogleSheetsResponse(text) {
   // Extract JSON dari wrapper JSONP
@@ -23,17 +25,46 @@ function parseGoogleSheetsResponse(text) {
   }
 
   const json = JSON.parse(match[1]);
+  const table = json.table;
 
-  // Ambil nama kolom dari header
-  const cols = json.table.cols.map((col) => col.label || '');
+  // ── Tentukan nama kolom (header) ──
+  // Cek apakah Google Sheets mendeteksi header otomatis
+  const hasAutoHeaders = table.cols.some((col) => col.label && col.label.trim() !== '');
 
-  // Konversi setiap baris menjadi object { NamaKolom: nilai }
-  return json.table.rows
+  let cols;
+  let dataRows;
+
+  if (hasAutoHeaders) {
+    // Google mendeteksi header → ambil dari cols.label
+    cols = table.cols.map((col) => col.label || '');
+    dataRows = table.rows;
+  } else {
+    // parsedNumHeaders=0 → baris pertama adalah header
+    // Ambil nama kolom dari row pertama
+    cols = table.rows[0].c.map((cell) =>
+      cell ? String(cell.v || '') : ''
+    );
+    dataRows = table.rows.slice(1); // Skip baris header
+  }
+
+  // ── Konversi setiap baris menjadi object { NamaKolom: nilai } ──
+  return dataRows
     .map((row) => {
       const obj = {};
       row.c.forEach((cell, i) => {
-        if (cols[i]) {
-          obj[cols[i]] = cell ? (cell.v != null ? cell.v : '') : '';
+        if (!cols[i]) return;
+
+        if (!cell || cell.v == null) {
+          obj[cols[i]] = '';
+          return;
+        }
+
+        // Gunakan formatted value (f) jika ada, agar angka seperti
+        // nomor WhatsApp (6.285E12) tetap tampil benar ("6285158424337")
+        if (cell.f != null) {
+          obj[cols[i]] = String(cell.f);
+        } else {
+          obj[cols[i]] = cell.v;
         }
       });
       return obj;

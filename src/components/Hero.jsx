@@ -1,4 +1,5 @@
 import { useSiteData } from '../context/SiteDataContext';
+import tuguGilingImg from '../images/TuguGiling.jpg';
 
 export default function Hero() {
   const { hero, padukuhan } = useSiteData();
@@ -7,18 +8,31 @@ export default function Hero() {
     <section
       id="beranda"
       className="relative min-h-[92vh] flex items-center justify-center overflow-hidden"
-      style={{
-        background:
-          'linear-gradient(150deg, #071e11 0%, #0e3220 45%, #184d30 100%)',
-      }}
     >
-      {hero.backgroundImage && (
-        <img
-          src={hero.backgroundImage}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
-        />
-      )}
+      {/* Background image */}
+      <img
+        src={tuguGilingImg}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover object-[center_80%]"
+      />
+
+      {/* Green gradient overlay — blends with the image */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(150deg, rgba(7,30,17,0.92) 0%, rgba(14,50,32,0.85) 35%, rgba(24,77,48,0.78) 65%, rgba(14,50,32,0.88) 100%)',
+        }}
+      />
+
+      {/* Extra radial glow for depth */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse at 50% 80%, rgba(24,77,48,0.3) 0%, transparent 70%)',
+        }}
+      />
 
       <div className="relative z-10 max-w-3xl mx-auto px-6 text-center py-24">
         {/* Accent line */}
