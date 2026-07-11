@@ -138,17 +138,19 @@ function DetailModal({ item, onClose }) {
 
           {/* Action buttons */}
           <div className="flex items-center gap-2">
-            <a
-              href={`https://wa.me/${item.whatsapp}?text=${encodeURIComponent(
-                `Halo, saya tertarik dengan produk ${item.name}`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 flex-1 justify-center px-5 py-3 bg-leaf-600 text-white text-sm font-medium rounded-lg hover:bg-leaf-700 transition-colors"
-            >
-              <WhatsAppIcon />
-              Hubungi via WhatsApp
-            </a>
+            {item.whatsapp && (
+              <a
+                href={`https://wa.me/${item.whatsapp}?text=${encodeURIComponent(
+                  `Halo, saya tertarik dengan produk ${item.name}`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 flex-1 justify-center px-5 py-3 bg-leaf-600 text-white text-sm font-medium rounded-lg hover:bg-leaf-700 transition-colors"
+              >
+                <WhatsAppIcon />
+                Hubungi via WhatsApp
+              </a>
+            )}
             {item.gmaps && (
               <a
                 href={item.gmaps}
