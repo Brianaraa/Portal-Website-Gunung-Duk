@@ -142,7 +142,7 @@ export default function Fasilitas() {
               Fasilitas Umum
             </h2>
             <p className="text-gray-400 max-w-md mx-auto text-sm leading-relaxed">
-              Fasilitas untuk kebutuhan bersama warga Padukuhan Giling.
+              Informasi mengenai fasilitas publik yang tersedia di Giling.
             </p>
           </div>
 
