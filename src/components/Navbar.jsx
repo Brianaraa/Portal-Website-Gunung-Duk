@@ -49,7 +49,7 @@ export default function Navbar() {
               }`}
             />
             </a>
-            Padukuhan Giling
+            Padukuhan Gunung Duk
           </a>
 
           {/* Desktop Navigation */}

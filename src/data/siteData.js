@@ -12,7 +12,7 @@
 export const siteConfig = {
   /* ─── Info Padukuhan ─── */
   padukuhan: {
-    name: 'Giling',
+    name: 'Gunung Duk',
     desa: 'Tuksono',
     kecamatan: 'Sentolo',
     kabupaten: 'Kulon Progo',
@@ -21,10 +21,10 @@ export const siteConfig = {
 
   /* ─── Hero Section ─── */
   hero: {
-    title: 'Selamat Datang di Padukuhan Giling',
+    title: 'Selamat Datang di Padukuhan Gunung Duk',
     subtitle:
-      'Portal informasi resmi Padukuhan Giling, Desa Tuksono, Kecamatan Sentolo, Kabupaten Kulon Progo, Daerah Istimewa Yogyakarta. Temukan potensi desa, produk UMKM unggulan, dan informasi layanan masyarakat.',
-    ctaText: 'Jelajahi Potensi',
+      'Portal informasi resmi Padukuhan Gunung Duk, Desa Tuksono, Kecamatan Sentolo, Kabupaten Kulon Progo, Daerah Istimewa Yogyakarta. Temukan potensi desa, produk UMKM unggulan, dan informasi layanan masyarakat.',
+    ctaText: 'Jelajahi Padukuhan',
     backgroundImage: null, // Ganti dengan path: '/images/hero.jpg'
   },
 
@@ -124,7 +124,7 @@ export const siteConfig = {
   /* ─── Perangkat / Pimpinan ─── */
   leadership: [
     {
-      name: '—', // Ganti dengan nama asli
+      name: 'Joko Hariyanto', // Ganti dengan nama asli
       position: 'Kepala Padukuhan',
       phone: '6281234567800',
     },
