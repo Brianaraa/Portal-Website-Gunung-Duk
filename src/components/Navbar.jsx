@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 const navLinks = [
   { label: 'Beranda', href: '#beranda' },
   { label: 'Tentang', href: '#tentang' },
+  { label: 'Fasilitas', href: '#fasilitas' },
   { label: 'UMKM', href: '#umkm' },
   { label: 'Peta', href: '#peta' },
   { label: 'Alamat', href: '#alamat' },
@@ -35,6 +36,11 @@ export default function Navbar() {
               scrolled ? 'text-leaf-800' : 'text-white'
             }`}
           >
+            <a
+              href="https://www.instagram.com/giling.gemilang?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+            >
             <img
               src="/images/LOGOKKNGILING.png"
               alt="Logo"
@@ -42,6 +48,7 @@ export default function Navbar() {
                 scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-90 w-0 -mr-2.5'
               }`}
             />
+            </a>
             Padukuhan Giling
           </a>
 

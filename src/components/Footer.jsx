@@ -1,10 +1,11 @@
-import { useSiteData } from '../context/SiteDataContext';
+import { useSiteData } from "../context/SiteDataContext";
 
 const footerNav = [
-  { label: 'Beranda', href: '#beranda' },
-  { label: 'Tentang', href: '#tentang' },
-  { label: 'UMKM', href: '#umkm' },
-  { label: 'Peta', href: '#peta' },
+  { label: "Beranda", href: "#beranda" },
+  { label: "Tentang", href: "#tentang" },
+  { label: "Fasilitas", href: "#fasilitas" },
+  { label: "UMKM", href: "#umkm" },
+  { label: "Peta", href: "#peta" },
 ];
 
 export default function Footer() {
@@ -22,8 +23,8 @@ export default function Footer() {
               Padukuhan {padukuhan.name}
             </p>
             <p className="text-leaf-200/60 text-sm leading-relaxed">
-              Portal informasi resmi Padukuhan {padukuhan.name}, Desa{' '}
-              {padukuhan.desa}, Kecamatan {padukuhan.kecamatan}, Kabupaten{' '}
+              Portal informasi resmi Padukuhan {padukuhan.name}, Desa{" "}
+              {padukuhan.desa}, Kecamatan {padukuhan.kecamatan}, Kabupaten{" "}
               {padukuhan.kabupaten}, {padukuhan.provinsi}.
             </p>
           </div>
@@ -90,11 +91,17 @@ export default function Footer() {
               alt="Logo UPN Veteran Yogyakarta"
               className="h-10 sm:h-12 object-contain"
             />
-            <img
-              src="/images/LOGOKKNGILING.png"
-              alt="Logo KKN Giling"
-              className="h-10 sm:h-12 object-contain"
-            />
+            <a
+              href="https://www.instagram.com/giling.gemilang?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/images/LOGOKKNGILING.png"
+                alt="Logo KKN Giling"
+                className="h-10 sm:h-12 object-contain hover:opacity-80 transition-opacity"
+              />
+            </a>
             <img
               src="/images/LogoKulonProgo.jpg"
               alt="Logo Kabupaten Kulon Progo"
@@ -103,7 +110,8 @@ export default function Footer() {
           </div>
 
           <p className="text-center text-sm text-leaf-200/40">
-            &copy; {year} Padukuhan {padukuhan.name}, Desa {padukuhan.desa} | KKN UPN Veteran Yogyakarta
+            &copy; {year} Padukuhan {padukuhan.name}, Desa {padukuhan.desa} |
+            KKN UPN Veteran Yogyakarta
           </p>
         </div>
       </div>

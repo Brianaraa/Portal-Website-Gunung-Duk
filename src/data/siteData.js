@@ -53,6 +53,9 @@ export const siteConfig = {
     },
   ],
 
+  /* ─── Fasilitas / Sarana Padukuhan ─── */
+  fasilitas: [],
+
   /* ─── Direktori UMKM ─── */
   umkm: [
     {
