@@ -114,7 +114,6 @@ export const siteConfig = {
     {
       name: 'Joko Hariyanto', // Ganti dengan nama asli
       position: 'Kepala Padukuhan',
-      phone: '6281234567800',
     },
   ],
 
