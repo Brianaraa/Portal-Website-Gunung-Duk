@@ -1,117 +1,53 @@
-import { useSiteData } from "../context/SiteDataContext";
-
-const footerNav = [
-  { label: "Beranda", href: "#beranda" },
-  { label: "Tentang", href: "#tentang" },
-  { label: "Fasilitas", href: "#fasilitas" },
-  { label: "UMKM", href: "#umkm" },
-  { label: "Peta", href: "#peta" },
-];
+import { useSiteData } from '../context/SiteDataContext';
 
 export default function Footer() {
   const { padukuhan, contact, leadership } = useSiteData();
-  const year = new Date().getFullYear();
 
   return (
-    <footer id="alamat" className="bg-leaf-950 text-white">
-      {/* ── Main content ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
-          {/* ── Column 1 : About ── */}
-          <div>
-            <p className="text-lg font-semibold mb-4">
-              Padukuhan {padukuhan.name}
-            </p>
-            <p className="text-leaf-200/60 text-sm leading-relaxed">
-              Portal informasi resmi Padukuhan {padukuhan.name}, Desa{" "}
-              {padukuhan.desa}, Kecamatan {padukuhan.kecamatan}, Kabupaten{" "}
-              {padukuhan.kabupaten}, {padukuhan.provinsi}.
+    <footer id="alamat" className="bg-twilight-950 text-white py-20 border-t-8 border-sunset-500">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-16">
+          <h2 className="text-3xl font-extrabold tracking-tight mb-4 text-white">
+            Padukuhan {padukuhan.name}
+          </h2>
+          <p className="text-twilight-200 text-sm leading-relaxed mb-8">
+            Pusat informasi dan layanan terpadu bagi warga dan pengunjung {padukuhan.name}, {padukuhan.desa}.
+          </p>
+          <div className="flex flex-wrap justify-center gap-6 text-sm text-twilight-200">
+            <a href="#beranda" className="hover:text-sunset-400 transition-colors">Beranda</a>
+            <a href="#tentang" className="hover:text-sunset-400 transition-colors">Profil</a>
+            <a href="#fasilitas" className="hover:text-sunset-400 transition-colors">Fasilitas</a>
+            <a href="#umkm" className="hover:text-sunset-400 transition-colors">UMKM</a>
+            <a href="#peta" className="hover:text-sunset-400 transition-colors">Peta</a>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-twilight-800">
+          <div className="flex flex-col md:items-end text-center md:text-right">
+            <h3 className="text-xs font-bold text-sunset-400 uppercase tracking-widest mb-4">Kontak & Alamat</h3>
+            <p className="text-sm text-twilight-200 leading-relaxed max-w-xs">
+              {contact.address}
             </p>
           </div>
-
-          {/* ── Column 2 : Navigation + Perangkat ── */}
-          <div>
-            <h3 className="text-xs font-semibold text-leaf-400 uppercase tracking-widest mb-5">
-              Navigasi
-            </h3>
-            <ul className="space-y-3 mb-10">
-              {footerNav.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-leaf-200/60 hover:text-white text-sm transition-colors duration-200"
-                  >
-                    {link.label}
-                  </a>
+          <div className="flex flex-col md:items-start text-center md:text-left">
+            <h3 className="text-xs font-bold text-sunset-400 uppercase tracking-widest mb-4">Kepengurusan</h3>
+            <ul className="space-y-3">
+              {leadership.map((person, idx) => (
+                <li key={idx} className="flex flex-col text-sm">
+                  <span className="font-bold text-white">{person.name}</span>
+                  <span className="text-twilight-300">{person.position}</span>
+                  {person.phone && (
+                    <span className="text-twilight-400 mt-1">{person.phone}</span>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
-
-          {/* ── Column 3 : Contact ── */}
-          <div>
-            <h3 className="text-xs font-semibold text-leaf-400 uppercase tracking-widest mb-5">
-              Alamat
-            </h3>
-            <ul className="space-y-5">
-              {/* Address */}
-              <li className="flex items-start gap-3 text-sm text-leaf-200/60">
-                <svg
-                  className="w-5 h-5 text-leaf-500 mt-0.5 shrink-0"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                  />
-                </svg>
-                <span>{contact.address}</span>
-              </li>
-            </ul>
-          </div>
         </div>
-      </div>
 
-      {/* ── Copyright bar ── */}
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          {/* Logos */}
-          <div className="flex items-center justify-center gap-6 mb-4">
-            <img
-              src="/images/LogoUPNYogyakarta.png"
-              alt="Logo UPN Veteran Yogyakarta"
-              className="h-10 sm:h-12 object-contain"
-            />
-            <a
-              href="https://www.instagram.com/giling.gemilang?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/images/LOGOKKNGILING.png"
-                alt="Logo KKN Giling"
-                className="h-10 sm:h-12 object-contain hover:opacity-80 transition-opacity"
-              />
-            </a>
-            <img
-              src="/images/LogoKulonProgo.jpg"
-              alt="Logo Kabupaten Kulon Progo"
-              className="h-10 sm:h-12 object-contain"
-            />
-          </div>
-
-          <p className="text-center text-sm text-leaf-200/40">
-            &copy; {year} Padukuhan {padukuhan.name}, Desa {padukuhan.desa} |
-            KKN UPN Veteran Yogyakarta
+        <div className="mt-20 text-center">
+          <p className="text-xs text-twilight-500 font-medium tracking-wide">
+            &copy; {new Date().getFullYear()} Padukuhan {padukuhan.name}. KKN UPN "Veteran" Yogyakarta.
           </p>
         </div>
       </div>

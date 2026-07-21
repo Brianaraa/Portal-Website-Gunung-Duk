@@ -36,13 +36,13 @@ function parseGoogleSheetsResponse(text) {
 
   if (hasAutoHeaders) {
     // Google mendeteksi header → ambil dari cols.label
-    cols = table.cols.map((col) => col.label || '');
+    cols = table.cols.map((col) => (col.label || '').trim());
     dataRows = table.rows;
   } else {
     // parsedNumHeaders=0 → baris pertama adalah header
     // Ambil nama kolom dari row pertama
     cols = table.rows[0].c.map((cell) =>
-      cell ? String(cell.v || '') : ''
+      cell ? String(cell.v || '').trim() : ''
     );
     dataRows = table.rows.slice(1); // Skip baris header
   }
@@ -84,6 +84,7 @@ const CACHE_PREFIX = 'padukuhan_v2_';
 const CACHE_DURATION = 0; // 0 untuk selalu mengambil data terbaru (live)
 
 function getCached(key) {
+  if (CACHE_DURATION <= 0) return null;
   try {
     const raw = localStorage.getItem(CACHE_PREFIX + key);
     if (!raw) return null;
@@ -120,9 +121,10 @@ function setCache(key, data) {
  */
 function toDirectImageUrl(url) {
   if (!url || typeof url !== 'string') return null;
+  const cleanUrl = url.trim();
 
   // Pattern: drive.google.com/file/d/{FILE_ID}/...
-  const driveMatch = url.match(
+  const driveMatch = cleanUrl.match(
     /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/
   );
   if (driveMatch) {
@@ -130,54 +132,100 @@ function toDirectImageUrl(url) {
   }
 
   // Pattern: drive.google.com/open?id={FILE_ID}
-  const openMatch = url.match(
+  const openMatch = cleanUrl.match(
     /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/
   );
   if (openMatch) {
     return `https://lh3.googleusercontent.com/d/${openMatch[1]}`;
   }
 
-  return url;
+  // Link folder Google Drive tidak bisa dijadikan src <img> langsung
+  if (cleanUrl.includes('drive.google.com/drive/folders')) {
+    return null;
+  }
+
+  return cleanUrl;
+}
+
+/* ── Helper fleksibel untuk mengambil nilai dari row ── */
+function parseCoordinates(str) {
+  if (!str || typeof str !== 'string') return null;
+  const parts = str.split(',').map((p) => parseFloat(p.trim()));
+  if (parts.length >= 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+    return [parts[0], parts[1]];
+  }
+  return null;
+}
+
+function getRowValue(row, ...possibleKeys) {
+  if (!row || typeof row !== 'object') return '';
+  
+  // 1. Cek exact match
+  for (const key of possibleKeys) {
+    if (row[key] !== undefined && row[key] !== null) {
+      return String(row[key]).trim();
+    }
+  }
+  
+  // 2. Cek match tanpa memedulikan spasi & huruf besar/kecil
+  const normalizedRow = {};
+  for (const k of Object.keys(row)) {
+    normalizedRow[k.trim().toLowerCase()] = row[k];
+  }
+  
+  for (const key of possibleKeys) {
+    const normKey = key.trim().toLowerCase();
+    if (normalizedRow[normKey] !== undefined && normalizedRow[normKey] !== null) {
+      return String(normalizedRow[normKey]).trim();
+    }
+  }
+  
+  return '';
 }
 
 /* ── Mapper: row → format UMKM app ── */
 function mapUmkmRow(row, index) {
-  const rawImage = row['Foto'] || row['foto'] || null;
+  const rawImage = getRowValue(row, 'Foto', 'foto', 'Gambar', 'gambar');
+  const coordStr = getRowValue(row, 'Koordinat', 'koordinat', 'Lat,Lng', 'lat,lng');
 
   return {
     id: index + 1,
-    name: row['Nama'] || row['nama'] || '',
-    description: row['Deskripsi'] || row['deskripsi'] || '',
+    name: getRowValue(row, 'Nama', 'nama', 'Nama UMKM', 'nama umkm', 'Nama Usaha', 'nama usaha'),
+    description: getRowValue(row, 'Deskripsi', 'deskripsi', 'Keterangan', 'keterangan'),
     image: toDirectImageUrl(rawImage),
-    qris: String(row['QRIS'] || row['qris'] || '').toLowerCase() === 'ya',
-    whatsapp: String(row['WhatsApp'] || row['whatsapp'] || ''),
-    category: row['Kategori'] || row['kategori'] || 'Lainnya',
-    gmaps: row['Gmaps'] || row['gmaps'] || null,
+    qris: getRowValue(row, 'QRIS', 'qris').toLowerCase() === 'ya',
+    whatsapp: getRowValue(row, 'WhatsApp', 'whatsapp', 'WA', 'wa', 'No HP', 'no hp', 'Kontak', 'kontak'),
+    category: getRowValue(row, 'Kategori', 'kategori') || 'Lainnya',
+    gmaps: getRowValue(row, 'Gmaps', 'gmaps', 'Maps', 'maps', 'Peta', 'peta') || null,
+    coordinates: parseCoordinates(coordStr),
   };
 }
 
 /* ── Mapper: row → format statistik app ── */
 function mapStatsRow(row) {
+  const val = getRowValue(row, 'Nilai', 'nilai', 'Jumlah', 'jumlah', 'Value', 'value');
   return {
-    id: String(row['ID'] || row['id'] || row['Label'] || '').toLowerCase(),
-    label: row['Label'] || row['label'] || '',
-    value: parseInt(row['Nilai'] || row['nilai'] || 0, 10),
-    description: row['Deskripsi'] || row['deskripsi'] || '',
-    icon: row['Icon'] || row['icon'] || 'home',
+    id: getRowValue(row, 'ID', 'id', 'Label', 'label').toLowerCase(),
+    label: getRowValue(row, 'Label', 'label', 'Nama', 'nama'),
+    value: parseInt(val || 0, 10),
+    description: getRowValue(row, 'Deskripsi', 'deskripsi', 'Keterangan', 'keterangan'),
+    icon: getRowValue(row, 'Icon', 'icon').toLowerCase() || 'home',
   };
 }
 
 /* ── Mapper: row → format fasilitas app ── */
 function mapFasilitasRow(row, index) {
-  const rawImage = row['Foto'] || row['foto'] || null;
+  const rawImage = getRowValue(row, 'Foto', 'foto', 'Gambar', 'gambar');
+  const coordStr = getRowValue(row, 'Koordinat', 'koordinat', 'Lat,Lng', 'lat,lng');
 
   return {
     id: index + 1,
-    name: row['Nama Fasilitas'] || row['nama fasilitas'] || '',
-    description: row['Deskripsi'] || row['deskripsi'] || '',
-    category: row['Kategori'] || row['kategori'] || 'Umum',
-    gmaps: row['Maps'] || row['maps'] || null,
+    name: getRowValue(row, 'Nama Fasilitas', 'nama fasilitas', 'Nama', 'nama', 'Fasilitas', 'fasilitas'),
+    description: getRowValue(row, 'Deskripsi', 'deskripsi', 'Keterangan', 'keterangan'),
+    category: getRowValue(row, 'Kategori', 'kategori') || 'Umum',
+    gmaps: getRowValue(row, 'Maps', 'maps', 'Gmaps', 'gmaps', 'Peta', 'peta') || null,
     image: toDirectImageUrl(rawImage),
+    coordinates: parseCoordinates(coordStr),
   };
 }
 

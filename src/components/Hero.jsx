@@ -4,64 +4,53 @@ export default function Hero() {
   const { hero, padukuhan } = useSiteData();
 
   return (
-    <section
-      id="beranda"
-      className="relative min-h-[92vh] flex items-center justify-center overflow-hidden"
-    >
-      {/* Background image */}
-      <img
-        src="/images/TuguGiling.jpg"
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover object-[center_80%]"
-      />
+    <section id="beranda" className="relative bg-warm-50 pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        {/* Left: Text Content */}
+        <div className="order-2 lg:order-1 lg:col-span-6 xl:col-span-5 flex flex-col justify-center z-10">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <span className="w-8 h-[2px] bg-sunset-500 rounded-full"></span>
+            <span className="text-twilight-600 text-xs font-bold uppercase tracking-widest">
+              {padukuhan.desa} · {padukuhan.kecamatan}
+            </span>
+          </div>
+          
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-[1.15] mb-6 tracking-tight">
+            {hero.title}
+          </h1>
+          
+          <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-10 font-medium">
+            {hero.subtitle}
+          </p>
+          
+          <div className="flex flex-wrap items-center gap-4">
+            <a
+              href="#umkm"
+              className="inline-flex justify-center items-center gap-2 px-8 py-3.5 bg-sunset-500 text-white text-sm font-semibold rounded-full hover:bg-sunset-600 hover:shadow-xl hover:shadow-sunset-500/20 hover:-translate-y-0.5 transition-all duration-300"
+            >
+              {hero.ctaText}
+            </a>
+            <a
+              href="#tentang"
+              className="inline-flex justify-center items-center gap-2 px-8 py-3.5 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-full hover:border-sunset-300 hover:bg-sunset-50 hover:text-sunset-700 hover:-translate-y-0.5 transition-all duration-300"
+            >
+              Profil Dusun
+            </a>
+          </div>
+        </div>
 
-      {/* Green gradient overlay — blends with the image */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'linear-gradient(150deg, rgba(7,30,17,0.92) 0%, rgba(14,50,32,0.85) 35%, rgba(24,77,48,0.78) 65%, rgba(14,50,32,0.88) 100%)',
-        }}
-      />
+        {/* Right: Image */}
+        <div className="order-1 lg:order-2 lg:col-span-6 xl:col-span-7 relative">
+          <div className="absolute inset-0 bg-gradient-to-tr from-sunset-200 to-twilight-100 rounded-[2.5rem] lg:rounded-[3.5rem] transform lg:translate-x-6 lg:translate-y-6 translate-x-3 translate-y-3 -z-10"></div>
+          <img
+            src="/images/TuguGiling.jpg"
+            alt="Pemandangan Padukuhan"
+            className="w-full aspect-[4/3] lg:aspect-[4/3] xl:aspect-[16/10] object-cover rounded-[2.5rem] lg:rounded-[3.5rem] shadow-sm border-4 border-white"
+          />
+        </div>
 
-      {/* Extra radial glow for depth */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse at 50% 80%, rgba(24,77,48,0.3) 0%, transparent 70%)',
-        }}
-      />
-
-      <div className="relative z-10 max-w-3xl mx-auto px-6 text-center py-24">
-        {/* Accent line */}
-        <div className="w-10 h-[2px] bg-leaf-400/50 mx-auto mb-8" />
-
-        {/* Location */}
-        <p className="text-leaf-300/40 text-[11px] font-medium uppercase tracking-[0.25em] mb-7">
-          {padukuhan.desa} · {padukuhan.kecamatan} · {padukuhan.kabupaten}
-        </p>
-
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white leading-snug mb-5">
-          {hero.title}
-        </h1>
-
-        <p className="text-white/40 text-[15px] max-w-lg mx-auto mb-10 leading-relaxed font-light">
-          {hero.subtitle}
-        </p>
-
-        {/* CTA — bordered, fills on hover */}
-        <a
-          href="#umkm"
-          className="inline-flex items-center gap-2.5 px-7 py-3 border border-white/20 text-white text-sm font-medium rounded-lg hover:bg-white hover:text-leaf-900 transition-all duration-300"
-        >
-          {hero.ctaText}
-          <span className="opacity-50">→</span>
-        </a>
       </div>
-
-      {/* Bottom fade into next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-warm-100 to-transparent pointer-events-none" />
     </section>
   );
 }

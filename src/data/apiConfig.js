@@ -30,9 +30,9 @@ const SPREADSHEET_ID = '1E7SBfDyWBZ6RXDo7rESduNuWayhB2NFKHGSoEN8qkSM';
 // │  Sesuaikan dengan nama tab yang ada di spreadsheet Anda.  │
 // │  Untuk dusun lain, cukup ganti nama sheet-nya saja.       │
 // └───────────────────────────────────────────────────────────┘
-const SHEET_UMKM = 'UMKM Giling';
-const SHEET_STATS = 'Statistik Giling';
-const SHEET_FASILITAS = 'Fasilitas Giling';
+const SHEET_UMKM = 'UMKM Gunung Duk';
+const SHEET_STATS = 'Statistik Gunung Duk';
+const SHEET_FASILITAS = 'Fasilitas Gunung Duk';
 
 /**
  * Membangun URL Google Sheets gviz/tq untuk mengambil data
@@ -47,19 +47,19 @@ const isConfigured = SPREADSHEET_ID !== 'PASTE_SPREADSHEET_ID_DISINI';
 
 export const API_CONFIG = {
   /**
-   * URL untuk data UMKM (Tab: UMKM Giling).
+   * URL untuk data UMKM (Tab: UMKM Gunung Duk).
    * Otomatis null jika Spreadsheet ID belum di-set → pakai data statis.
    */
   umkm: isConfigured ? buildGoogleSheetsUrl(SHEET_UMKM) : null,
 
   /**
-   * URL untuk data statistik demografi (Tab: Statistik Giling).
+   * URL untuk data statistik demografi (Tab: Statistik Gunung Duk).
    * Otomatis null jika Spreadsheet ID belum di-set → pakai data statis.
    */
   stats: isConfigured ? buildGoogleSheetsUrl(SHEET_STATS) : null,
 
   /**
-   * URL untuk data fasilitas (Tab: Fasilitas Giling).
+   * URL untuk data fasilitas (Tab: Fasilitas Gunung Duk).
    */
   fasilitas: isConfigured ? buildGoogleSheetsUrl(SHEET_FASILITAS) : null,
 };

@@ -1,180 +1,139 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { useSiteData } from '../context/SiteDataContext';
+import ImageLightbox from './ImageLightbox';
 
-/* ── Modal for Map Image with Zoom/Pan Support ── */
-function MapModal({ image, title, onClose }) {
-  const [scale, setScale] = useState(1);
-
-  if (!image) return null;
-
-  const handleZoomIn = () => setScale(prev => Math.min(prev + 0.5, 4));
-  const handleZoomOut = () => setScale(prev => Math.max(prev - 0.5, 0.5));
-  const handleReset = () => setScale(1);
-
-  return (
-    <div
-      className="fixed inset-0 z-[100] flex flex-col bg-black/95 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      {/* Toolbar */}
-      <div className="absolute top-0 inset-x-0 p-4 flex items-center justify-between z-10 bg-gradient-to-b from-black/60 to-transparent">
-        <h3 className="text-white font-medium text-sm drop-shadow-md truncate pr-4">{title}</h3>
-        <div className="flex items-center gap-1 sm:gap-2 shrink-0" onClick={e => e.stopPropagation()}>
-          <button onClick={handleZoomOut} className="p-2 text-white bg-white/10 hover:bg-white/20 rounded-full transition-colors" aria-label="Zoom Out">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM13.5 10.5h-6" />
-            </svg>
-          </button>
-          <button onClick={handleZoomIn} className="p-2 text-white bg-white/10 hover:bg-white/20 rounded-full transition-colors" aria-label="Zoom In">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
-            </svg>
-          </button>
-          <button onClick={handleReset} className="p-2 text-white bg-white/10 hover:bg-white/20 rounded-full transition-colors ml-1 sm:ml-2" aria-label="Reset Zoom">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-            </svg>
-          </button>
-          <div className="w-px h-6 bg-white/20 mx-1 sm:mx-2" />
-          <button onClick={onClose} className="p-2 text-white bg-white/10 hover:bg-red-500/80 rounded-full transition-colors" aria-label="Tutup">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Image Container with Scroll (for panning when zoomed) */}
-      <div 
-        className="flex-1 overflow-auto flex items-center justify-center p-4 mt-14"
-        onClick={e => e.stopPropagation()}
-      >
-        <div 
-          className="relative transition-transform duration-200 ease-out flex items-center justify-center"
-          style={{ transform: `scale(${scale})`, transformOrigin: 'center' }}
-        >
-          <img
-            src={image}
-            alt={title}
-            className="max-w-full max-h-[85vh] object-contain drop-shadow-2xl select-none"
-            draggable={false}
-          />
-        </div>
-      </div>
-      
-      {/* Hint for mobile */}
-      <div className="absolute bottom-6 inset-x-0 text-center pointer-events-none">
-        <span className="inline-block px-4 py-1.5 bg-black/50 backdrop-blur text-white/70 text-xs rounded-full">
-          Gunakan tombol di atas untuk zoom, dan geser layar.
-        </span>
-      </div>
-    </div>
-  );
-}
-
-/* ── Reusable map card — supports embed iframe, static image, or placeholder ── */
-function MapCard({ data, onOpenImage }) {
-  const hasEmbed = Boolean(data.embedUrl);
-  const hasImage = Boolean(data.image);
-
-  return (
-    <div>
-      <h3 className="text-sm font-semibold text-gray-800 mb-3">{data.title}</h3>
-
-      <div className="rounded-xl overflow-hidden border border-leaf-200 bg-white relative group">
-        {hasEmbed ? (
-          <iframe
-            src={data.embedUrl}
-            className="w-full h-[320px] md:h-[400px]"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title={data.title}
-          />
-        ) : hasImage ? (
-          <div 
-            className="w-full min-h-[280px] md:min-h-[400px] cursor-pointer relative bg-warm-50 p-2"
-            onClick={() => onOpenImage({ image: data.image, title: data.title })}
-          >
-            <img
-              src={data.image}
-              alt={data.title}
-              className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
-              loading="lazy"
-            />
-            {/* Overlay hint to click */}
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-end justify-center pb-4">
-              <span className="bg-white/95 text-gray-800 text-[13px] font-medium px-4 py-2 rounded-full flex items-center gap-2 shadow-lg opacity-70 group-hover:opacity-100 transition-opacity duration-300">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-                </svg>
-                Ketuk untuk perbesar
-              </span>
-            </div>
-          </div>
-        ) : (
-          <div className="w-full h-[320px] md:h-[400px] bg-leaf-50 flex flex-col items-center justify-center text-center px-6">
-            <svg
-              className="w-10 h-10 text-leaf-300 mb-3"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
-              />
-            </svg>
-            <p className="text-sm text-leaf-500 font-medium">Belum tersedia</p>
-            <p className="text-xs text-leaf-400 mt-1">
-              Tambahkan gambar atau embed URL di siteData.js
-            </p>
-          </div>
-        )}
-      </div>
-
-      <p className="text-xs text-gray-400 mt-2.5">{data.description}</p>
-    </div>
-  );
-}
+// Lazy load Leaflet to avoid SSR issues and keep bundle light
+const InteractiveMap = lazy(() => import('./InteractiveMap'));
 
 export default function MapSection() {
-  const { map } = useSiteData();
-  const [modalData, setModalData] = useState(null);
+  const { map, padukuhan, fasilitas = [], umkm = [] } = useSiteData();
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  // Combine coordinates from both Fasilitas and UMKM
+  const allMarkers = [
+    ...(fasilitas || []).filter((f) => f && f.coordinates),
+    ...(umkm || []).filter((u) => u && u.coordinates),
+  ];
 
   return (
-    <>
-      <section id="peta" className="py-16 md:py-24 bg-warm-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section header */}
-          <div className="max-w-xl mb-12">
-            <p className="text-sm text-leaf-600 font-medium mb-1.5">
-              Lokasi &amp; Wilayah
+    <section id="peta" className="py-24 bg-white border-t border-gray-100">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
+            Peta Wilayah
+          </h2>
+          <p className="text-gray-600 font-medium">
+            Jelajahi lokasi fasilitas umum dan UMKM di sekitar Padukuhan Gunung Duk. Klik penanda titik untuk membuka petunjuk arah di Google Maps.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+
+          {/* ── Peta Wilayah Interaktif (Leaflet) ── */}
+          <div className="flex flex-col">
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-1">{map.wilayah.title}</h3>
+                <p className="text-gray-500 text-sm">{map.wilayah.description}</p>
+              </div>
+              {allMarkers.length > 0 && (
+                <span className="text-xs font-bold text-sunset-600 bg-sunset-50 border border-sunset-100 px-3 py-1 rounded-full">
+                  {allMarkers.length} Titik Lokasi
+                </span>
+              )}
+            </div>
+
+            <Suspense
+              fallback={
+                <div className="w-full aspect-square rounded-[2rem] bg-warm-50 flex items-center justify-center animate-pulse">
+                  <p className="text-sm text-gray-400 font-medium">Memuat peta…</p>
+                </div>
+              }
+            >
+              {map.wilayah.embedUrl ? (
+                <div className="w-full aspect-square rounded-[2rem] overflow-hidden border border-gray-100">
+                  <iframe
+                    src={map.wilayah.embedUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full h-full"
+                  />
+                </div>
+              ) : (
+                <InteractiveMap
+                  markers={allMarkers}
+                  center={[-7.881, 110.234]}
+                  zoom={15}
+                  height="480px"
+                />
+              )}
+            </Suspense>
+
+            <p className="text-xs text-gray-400 mt-3 font-medium">
+              💡 Klik ikon penanda di peta untuk melihat nama tempat dan membuka rute langsung di Google Maps.
             </p>
-            <h2 className="text-2xl md:text-[1.7rem] font-semibold text-leaf-900">
-              Peta Padukuhan Giling
-            </h2>
           </div>
 
-          {/* Two-column map grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <MapCard data={map.wilayah} onOpenImage={setModalData} />
-            <MapCard data={map.administrasi} onOpenImage={setModalData} />
+          {/* ── Peta Administrasi (Zoomable Lightbox) ── */}
+          <div className="flex flex-col">
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-1">{map.administrasi.title}</h3>
+              <p className="text-gray-500 text-sm">{map.administrasi.description}</p>
+            </div>
+
+            {map.administrasi.image ? (
+              <>
+                <button
+                  onClick={() => setLightboxOpen(true)}
+                  className="group relative w-full aspect-square rounded-[2rem] overflow-hidden border border-gray-100 hover:border-sunset-200 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sunset-400 focus:ring-offset-2"
+                  title="Klik untuk memperbesar peta"
+                >
+                  <img
+                    src={map.administrasi.image}
+                    alt={map.administrasi.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-twilight-950/0 group-hover:bg-twilight-950/30 transition-all duration-300 flex flex-col items-center justify-center gap-2">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center gap-2">
+                      <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                        <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                      </div>
+                      <span className="text-white text-sm font-bold bg-twilight-900/70 backdrop-blur px-4 py-1.5 rounded-full">
+                        Klik untuk Zoom
+                      </span>
+                    </div>
+                  </div>
+                </button>
+
+                <p className="text-xs text-gray-400 mt-3 font-medium">
+                  💡 Klik gambar untuk membuka tampilan penuh dengan zoom interaktif.
+                </p>
+
+                <ImageLightbox
+                  isOpen={lightboxOpen}
+                  onClose={() => setLightboxOpen(false)}
+                  src={map.administrasi.image}
+                  alt={map.administrasi.title}
+                />
+              </>
+            ) : (
+              <div className="w-full aspect-square rounded-[2rem] bg-warm-50 flex flex-col items-center justify-center text-center px-6">
+                <svg className="w-10 h-10 text-twilight-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p className="text-sm text-gray-400 font-medium">Peta administrasi belum tersedia</p>
+              </div>
+            )}
           </div>
         </div>
-      </section>
-
-      {/* Pop-up Image Modal */}
-      {modalData && (
-        <MapModal 
-          image={modalData.image} 
-          title={modalData.title} 
-          onClose={() => setModalData(null)} 
-        />
-      )}
-    </>
+      </div>
+    </section>
   );
 }

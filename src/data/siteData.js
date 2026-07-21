@@ -1,5 +1,5 @@
 /**
- * Data konten website Padukuhan Giling.
+ * Data konten website Padukuhan Gunung Duk.
  *
  * Struktur ini dirancang agar mudah di-replace dengan fetch() dari API eksternal.
  * Cukup ganti isi variabel atau ubah menjadi async fetch tanpa mengubah komponen.
@@ -29,29 +29,7 @@ export const siteConfig = {
   },
 
   /* ─── Statistik Demografi ─── */
-  stats: [
-    {
-      id: 'kk',
-      label: 'Jumlah KK',
-      value: 245,
-      description: 'Kepala Keluarga terdaftar',
-      icon: 'home',
-    },
-    {
-      id: 'male',
-      label: 'Laki-laki',
-      value: 520,
-      description: 'Penduduk laki-laki',
-      icon: 'male',
-    },
-    {
-      id: 'female',
-      label: 'Perempuan',
-      value: 498,
-      description: 'Penduduk perempuan',
-      icon: 'female',
-    },
-  ],
+  stats: [],
 
   /* ─── Fasilitas / Sarana Padukuhan ─── */
   fasilitas: [],
@@ -119,6 +97,16 @@ export const siteConfig = {
       whatsapp: '6281234567895',
       category: 'Pertanian',
     },
+    {
+      id: 7,
+      name: 'Gula Kelapa Organik',
+      description:
+        'Gula kelapa organik tanpa bahan pengawet, cocok untuk gaya hidup sehat dan masakan tradisional.',
+      image: null,
+      qris: false,
+      whatsapp: '6281234567895',
+      category: 'Pertanian',
+    },
   ],
 
   /* ─── Perangkat / Pimpinan ─── */
@@ -133,14 +121,14 @@ export const siteConfig = {
   /* ─── Kontak ─── */
   contact: {
     address:
-      'Padukuhan Giling, Desa Tuksono, Kec. Sentolo, Kab. Kulon Progo, Daerah Istimewa Yogyakarta',
+      'Padukuhan Gunung Duk, Desa Tuksono, Kec. Sentolo, Kab. Kulon Progo, Daerah Istimewa Yogyakarta',
   },
 
   /* ─── Peta ─── */
   map: {
     wilayah: {
       title: 'Peta Wilayah',
-      description: 'Peta lokasi dan batas wilayah Padukuhan Giling',
+      description: 'Peta lokasi dan batas wilayah Padukuhan Gunung Duk',
       embedUrl: null, // Ganti dengan Google Maps embed URL
       image: null, // Atau: '/images/peta-wilayah.jpg'
     },
@@ -154,8 +142,8 @@ export const siteConfig = {
   /* ─── Tentang Kami ─── */
   about: {
     title: 'Profil Padukuhan',
-    subtitle: 'Sejarah, Visi & Misi Padukuhan Giling',
-    sejarah: 'Padukuhan Giling merupakan salah satu wilayah yang masyarakatnya terus menjaga identitas budaya dan tradisi seperti Baritan Suran dan kesenian Oglek. Wilayah ini memiliki potensi pertanian dan UMKM yang berkembang, serta berkomitmen untuk melestarikan nilai-nilai lokal.',
+    subtitle: 'Sejarah & Identitas Padukuhan Gunung Duk',
+    sejarah: 'Filosofi Dusun Gunung Duk berakar dari sebuah mata air di kaki gunung yang tersumbat ijuk, menjadikan sebuah lambang kearifan lokal tentang menjaga, menahan, dan mengalirkan kehidupan pada waktu yang tepat.',
     visi: 'Mewujudkan Desa Tuksono menjadi Desa Mandiri melalui bidang Pertanian dan Industri Kecil, serta menjadi Desa Budaya yang lestari.',
     misi: [
       'Meningkatkan perekonomian masyarakat melalui pemberdayaan UMKM dan kerajinan lokal.',

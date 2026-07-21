@@ -1,35 +1,35 @@
 @import 'tailwindcss';
 
 @theme {
-  /* ── Leaf Green palette ── */
-  --color-leaf-50: #f0fdf4;
-  --color-leaf-100: #dcfce7;
-  --color-leaf-200: #bbf7d0;
-  --color-leaf-300: #86efac;
-  --color-leaf-400: #4ade80;
-  --color-leaf-500: #22c55e;
-  --color-leaf-600: #16a34a;
-  --color-leaf-700: #15803d;
-  --color-leaf-800: #166534;
-  --color-leaf-900: #14532d;
-  --color-leaf-950: #052e16;
+  /* ── Sunset palette ── */
+  --color-sunset-50:  #fff0ee;
+  --color-sunset-100: #ffe3df;
+  --color-sunset-200: #ffc2bb;
+  --color-sunset-300: #ff988c;
+  --color-sunset-400: #fd6d5f;
+  --color-sunset-500: #fd5e53;
+  --color-sunset-600: #e3443a;
+  --color-sunset-700: #be322a;
+  --color-sunset-800: #9e2a24;
+  --color-sunset-900: #832722;
+  --color-sunset-950: #48110e;
 
-  /* ── Wood / Brown accent ── */
-  --color-wood-50: #fdf8f0;
-  --color-wood-100: #f5f0eb;
-  --color-wood-200: #e8ddd0;
-  --color-wood-300: #d4c4ab;
-  --color-wood-400: #b8a07a;
-  --color-wood-500: #8b6f47;
-  --color-wood-600: #7a5f3a;
-  --color-wood-700: #6b4f2e;
-  --color-wood-800: #5a4226;
-  --color-wood-900: #4a3620;
+  /* ── Twilight / Purple accent ── */
+  --color-twilight-50: #f4f3f8;
+  --color-twilight-100: #eae8f2;
+  --color-twilight-200: #d6d3e7;
+  --color-twilight-300: #bab4d7;
+  --color-twilight-400: #9a90c1;
+  --color-twilight-500: #7f72aa;
+  --color-twilight-600: #67598f;
+  --color-twilight-700: #554976;
+  --color-twilight-800: #463d60;
+  --color-twilight-900: #3b344f;
 
   /* ── Warm neutrals (backgrounds) ── */
-  --color-warm-50: #faf9f6;
-  --color-warm-100: #f4f2ed;
-  --color-warm-200: #eae7e0;
+  --color-warm-50: #fffcf9;
+  --color-warm-100: #fff5eb;
+  --color-warm-200: #ffe6d1;
 
   /* ── Typography ── */
   --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
@@ -43,7 +43,7 @@
     background-color: var(--color-warm-50);
   }
   ::selection {
-    background-color: var(--color-leaf-200);
-    color: var(--color-leaf-900);
+    background-color: var(--color-sunset-200);
+    color: var(--color-sunset-900);
   }
 }
