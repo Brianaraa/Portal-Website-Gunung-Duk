@@ -18,11 +18,11 @@ export default function About() {
             alt="Logo UPN Veteran Yogyakarta"
             className="h-14 md:h-16 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-sm"
           />
-          <img
+          {/* <img
             src="/images/LOGOKKNGILING.PNG"
             alt="Logo KKN"
             className="h-14 md:h-16 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-sm"
-          />
+          /> */}
         </div>
 
         <span className="inline-block py-1 px-3 rounded-full bg-sunset-50 text-sunset-600 text-xs font-bold uppercase tracking-widest mb-4">
