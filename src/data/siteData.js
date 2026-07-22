@@ -140,8 +140,8 @@ export const siteConfig = {
 
   /* ─── Tentang Kami ─── */
   about: {
-    title: 'Profil Padukuhan',
-    subtitle: 'Sejarah & Identitas Padukuhan Gunung Duk',
+    title: 'Profil Padukuhan & Kalurahan',
+    subtitle: 'Sejarah Padukuhan Gunung Duk dan Visi Misi Kalurahan Tuksono',
     sejarah: 'Filosofi Dusun Gunung Duk berakar dari sebuah mata air di kaki gunung yang tersumbat ijuk, menjadikan sebuah lambang kearifan lokal tentang menjaga, menahan, dan mengalirkan kehidupan pada waktu yang tepat.',
     visi: 'Mewujudkan Desa Tuksono menjadi Desa Mandiri melalui bidang Pertanian dan Industri Kecil, serta menjadi Desa Budaya yang lestari.',
     misi: [
