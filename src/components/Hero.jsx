@@ -44,7 +44,7 @@ export default function Hero() {
         <div className="order-1 lg:order-2 lg:col-span-6 xl:col-span-7 relative">
           <div className="absolute inset-0 bg-gradient-to-tr from-sunset-200 to-twilight-100 rounded-[2.5rem] lg:rounded-[3.5rem] transform lg:translate-x-6 lg:translate-y-6 translate-x-3 translate-y-3 -z-10"></div>
           <img
-            src="/images/TuguGiling.jpg"
+            src="/images/gapuraGunduk.jpg"
             alt="Pemandangan Padukuhan"
             className="w-full aspect-[4/3] lg:aspect-[4/3] xl:aspect-[16/10] object-cover rounded-[2.5rem] lg:rounded-[3.5rem] shadow-sm border-4 border-white"
           />

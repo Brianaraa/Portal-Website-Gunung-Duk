@@ -81,7 +81,7 @@ function parseGoogleSheetsResponse(text) {
    localStorage Cache — Mengurangi fetch & mempercepat load
    ═══════════════════════════════════════════════════════════ */
 const CACHE_PREFIX = 'padukuhan_v2_';
-const CACHE_DURATION = 0; // 0 untuk selalu mengambil data terbaru (live)
+const CACHE_DURATION = 5 * 60 * 1000; // Cache 5 menit (mempercepat load & hemat kuota/CPU)
 
 function getCached(key) {
   if (CACHE_DURATION <= 0) return null;
@@ -112,12 +112,10 @@ function setCache(key, data) {
 }
 
 /**
- * Mengubah URL Google Drive sharing menjadi URL gambar langsung.
+ * Mengubah URL Google Drive sharing menjadi URL gambar langsung (Auto Optimized width=800px).
  *
  * Input:  https://drive.google.com/file/d/FILE_ID/view?usp=sharing
- * Output: https://lh3.googleusercontent.com/d/FILE_ID
- *
- * Jika bukan URL Google Drive, dikembalikan apa adanya.
+ * Output: https://lh3.googleusercontent.com/d/FILE_ID=w800
  */
 function toDirectImageUrl(url) {
   if (!url || typeof url !== 'string') return null;
@@ -128,7 +126,7 @@ function toDirectImageUrl(url) {
     /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/
   );
   if (driveMatch) {
-    return `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
+    return `https://lh3.googleusercontent.com/d/${driveMatch[1]}=w800`;
   }
 
   // Pattern: drive.google.com/open?id={FILE_ID}
@@ -136,7 +134,7 @@ function toDirectImageUrl(url) {
     /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/
   );
   if (openMatch) {
-    return `https://lh3.googleusercontent.com/d/${openMatch[1]}`;
+    return `https://lh3.googleusercontent.com/d/${openMatch[1]}=w800`;
   }
 
   // Link folder Google Drive tidak bisa dijadikan src <img> langsung

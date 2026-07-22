@@ -13,13 +13,13 @@ export default function About() {
             alt="Logo Kabupaten Kulon Progo"
             className="h-14 md:h-16 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-sm"
           />
-          {/* <img
+          <img
             src="/images/LogoUPNYogyakarta.png"
             alt="Logo UPN Veteran Yogyakarta"
             className="h-14 md:h-16 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-sm"
-          /> */}
+          />
           <img
-            src="/images/LOGOKKNGILING.PNG"
+            src="/images/logoKknGunduk.png"
             alt="Logo KKN"
             className="h-14 md:h-16 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-sm"
           />

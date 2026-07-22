@@ -43,7 +43,7 @@ export default function InteractiveMap({
         center={mapCenter}
         zoom={zoom}
         style={{ height: '100%', width: '100%' }}
-        scrollWheelZoom={true}
+        scrollWheelZoom={false}
         zoomControl={true}
         attributionControl={true}
       >
@@ -57,7 +57,7 @@ export default function InteractiveMap({
           const gmapsUrl = item.gmaps || `https://www.google.com/maps?q=${lat},${lng}`;
 
           return (
-            <Marker key={item.id || idx} position={[lat, lng]}>
+            <Marker key={`${item.name || 'item'}-${idx}`} position={[lat, lng]}>
               <Popup>
                 <div className="p-1 min-w-[190px]">
                   <div className="mb-1 flex items-center justify-between">
